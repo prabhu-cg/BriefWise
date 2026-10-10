@@ -200,8 +200,8 @@ export function BriefView({
                 <div>
                   <p className="font-bold text-ink-strong">Preview mode</p>
                   <p className="mt-0.5 leading-relaxed">
-                    The refinement service isn&rsquo;t connected, so this is an illustrative example,
-                    not an analysis of your text.
+                    This brief is an illustrative example, not an analysis of your text. If the
+                    AI service has been connected since, choose Refine again to generate a real one.
                   </p>
                 </div>
               </div>
