@@ -12,7 +12,7 @@ Fill the fields like this:
 - statedByStakeholder: only points the stakeholder actually made, close to their wording. No interpretation.
 - problem: the problem as stated, in one or two sentences. If the stakeholder named a solution or a feeling rather than a problem, say what is stated and that the underlying problem has not been defined.
 - businessObjectives: objectives the stakeholder stated or clearly implied. Leave empty if there are none.
-- userProblem: what users or customers struggle with, as stated. If it was not described, say it has not been described. Do not invent user behaviour.
+- userProblem: what users or customers struggle with, as stated. If it was not described, write a full sentence such as "The user problem has not been described." Do not invent user behaviour.
 - potentialRequirements: things the solution may need to do, written as possibilities to review ("Review service categorisation"), not commitments ("Must implement a new taxonomy"). Keep them solution-neutral. Only include ones the input reasonably supports; an empty list is fine for vague input.
 - assumptions: plausible interpretations that are NOT confirmed. Phrase them tentatively ("may", "might").
 - clarificationQuestions: specific questions about missing or ambiguous information, ordered by importance. Always include at least one.
@@ -20,7 +20,7 @@ Fill the fields like this:
 
 - signals: honest true/false judgements about the stakeholder's INPUT (not your output). Answer false when unsure.
 
-When something has not been defined, say so with the plain wording "has not been defined", "has not been described" or "has not been stated".
+When something has not been defined, say so in a complete sentence that names the subject, for example "The user problem has not been described." or "The stakeholder has not stated who the users are." Never return a bare fragment such as "has not been described".
 
 Rules:
 - Preserve the stakeholder's intent. Do not change what they asked for.
