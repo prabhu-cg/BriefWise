@@ -74,3 +74,8 @@ export const Close = ({ className = "h-4 w-4" }: IconProps) => (
     <path d="M6 6l12 12M18 6 6 18" />
   </svg>
 );
+export const MessageSquare = ({ className = "h-4 w-4" }: IconProps) => (
+  <svg {...base} className={className}>
+    <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z" />
+  </svg>
+);
