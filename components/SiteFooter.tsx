@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { Logo } from "./Logo";
 
+const LINKS = [
+  { href: "/refiner", label: "Refiner" },
+  { href: "/about", label: "About" },
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
+];
+
 export function SiteFooter() {
   return (
     <footer className="border-t border-line">
@@ -11,18 +18,17 @@ export function SiteFooter() {
             Turn vague briefs into clear direction.
           </p>
         </div>
-        <ul className="flex gap-6 text-sm font-semibold">
-          <li>
-            <Link href="/refiner" className="hover:text-brand-strong">
-              Refiner
-            </Link>
-          </li>
-          <li>
-            <Link href="/about" className="hover:text-brand-strong">
-              About
-            </Link>
-          </li>
-        </ul>
+        <nav aria-label="Footer">
+          <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
+            {LINKS.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="hover:text-brand-strong">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </footer>
   );

@@ -6,7 +6,6 @@ import { Logo } from "./Logo";
 
 const NAV = [
   { href: "/refiner", label: "Refiner" },
-  { href: "/about", label: "About" },
 ];
 
 export function SiteHeader() {
