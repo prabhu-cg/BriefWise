@@ -9,7 +9,11 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy Policy" lastUpdated="19 October 2026">
+    <LegalPage
+      title="Privacy Policy"
+      description="How BriefWise handles your text, and what stays in your browser."
+      lastUpdated="19 October 2026"
+    >
       <h2>The short version</h2>
       <p>
         BriefWise has no accounts and stores nothing about you on a server. Your

@@ -83,11 +83,11 @@ function BriefSection({ def, value, generated, draft, onDraftChange, onSave, onR
 
   const heading = (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-      <h2 id={`${def.id}-title`} className="text-xl font-bold tracking-tight text-ink-strong">
+      <h2 id={`${def.id}-title`} className="text-2xl leading-snug">
         {def.title}
       </h2>
       {edited && (
-        <span className="rounded-md border border-line bg-surface px-2 py-0.5 text-xs font-bold text-ink-strong">
+        <span className="rounded-full border border-line-strong bg-sand px-2.5 py-0.5 text-xs font-semibold text-ink-strong">
           Edited
         </span>
       )}
@@ -107,7 +107,7 @@ function BriefSection({ def, value, generated, draft, onDraftChange, onSave, onR
   );
 
   const basis = def.basis && (
-    <p className="mt-1 text-sm font-semibold text-ink-muted">{def.basis}</p>
+    <p className="mt-1 text-sm text-ink-muted">{def.basis}</p>
   );
 
   return (
@@ -116,7 +116,7 @@ function BriefSection({ def, value, generated, draft, onDraftChange, onSave, onR
       aria-labelledby={`${def.id}-title`}
       className={`scroll-mt-24 py-8 first:pt-0 ${
         def.emphasis
-          ? "my-4 rounded-xl border border-[#f0cdb8] bg-brand-tint p-6 print:border-line print:bg-transparent sm:p-8"
+          ? "my-6 rounded-[20px] border border-line-strong bg-brand-tint p-6 print:border-line print:bg-transparent sm:p-8"
           : "border-t border-line first:border-t-0"
       }`}
     >
@@ -135,7 +135,7 @@ function BriefSection({ def, value, generated, draft, onDraftChange, onSave, onR
             <ul className="max-w-prose space-y-3">
               {(value as string[]).map((item, index) => (
                 <li key={`${index}-${item}`} className="flex gap-3 text-lg leading-relaxed">
-                  <span aria-hidden="true" className="mt-[0.7rem] h-1.5 w-1.5 shrink-0 rounded-sm bg-brand" />
+                  <span aria-hidden="true" className="mt-[0.7rem] h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -163,7 +163,7 @@ function BriefSection({ def, value, generated, draft, onDraftChange, onSave, onR
                 rows={4}
                 value={draft as string}
                 onChange={(event) => onDraftChange(def.field, event.target.value)}
-                className="block w-full resize-y rounded-lg border border-[#c9c0b8] bg-paper p-3 text-lg leading-relaxed text-ink-strong"
+                className="field block w-full resize-y p-3 text-lg leading-relaxed"
               />
             </>
           ) : (
@@ -184,7 +184,7 @@ function BriefSection({ def, value, generated, draft, onDraftChange, onSave, onR
                         next[index] = event.target.value;
                         onDraftChange(def.field, next);
                       }}
-                      className="block min-w-0 flex-1 resize-y rounded-lg border border-[#c9c0b8] bg-paper p-3 text-base leading-relaxed text-ink-strong"
+                      className="field block min-w-0 flex-1 resize-y p-3 text-base leading-relaxed"
                     />
                     <button
                       type="button"
@@ -192,7 +192,7 @@ function BriefSection({ def, value, generated, draft, onDraftChange, onSave, onR
                         onDraftChange(def.field, (draft as string[]).filter((_, i) => i !== index))
                       }
                       aria-label={`Remove ${def.title} item ${index + 1}`}
-                      className={`${buttonGhost} mt-1 px-2`}
+                      className={`${buttonGhost} mt-1 !px-2`}
                     >
                       <Close />
                     </button>

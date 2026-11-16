@@ -9,7 +9,11 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <LegalPage title="Terms of Service" lastUpdated="19 October 2026">
+    <LegalPage
+      title="Terms of Service"
+      description="The terms for using BriefWise."
+      lastUpdated="19 October 2026"
+    >
       <h2>1. Acceptance</h2>
       <p>
         By using BriefWise you agree to these terms. If you do not agree with

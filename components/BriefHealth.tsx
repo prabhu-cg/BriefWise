@@ -6,7 +6,7 @@ function Gap() {
   return (
     <span
       aria-hidden="true"
-      className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-brand text-xs font-extrabold leading-none text-brand-strong"
+      className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-brand text-xs font-bold leading-none text-brand-strong"
     >
       !
     </span>
@@ -18,10 +18,10 @@ export function BriefHealth({ brief }: { brief: RefinedBrief }) {
   return (
     <section
       aria-labelledby="health-title"
-      className="rounded-xl border border-line bg-surface p-6 print:bg-transparent sm:p-8"
+      className="rounded-[20px] border border-line bg-surface p-6 print:bg-transparent sm:p-8"
     >
-      <p className="text-sm font-bold text-ink-muted">Brief health</p>
-      <h2 id="health-title" className="mt-1 text-2xl font-extrabold tracking-tight text-ink-strong">
+      <p className="text-sm font-semibold text-ink-muted">Brief health</p>
+      <h2 id="health-title" className="mt-1 text-3xl leading-tight">
         {health.headline}
       </h2>
       <p className="mt-1 max-w-prose leading-relaxed">{health.summary}</p>
@@ -32,7 +32,7 @@ export function BriefHealth({ brief }: { brief: RefinedBrief }) {
             {item.ok ? (
               <span
                 aria-hidden="true"
-                className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-ink-strong text-white"
+                className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand text-on-brand"
               >
                 <Check className="h-3 w-3" />
               </span>

@@ -15,20 +15,20 @@ BriefWise turns messy stakeholder requests into structured UX/product briefs. It
 BriefWise is a focused refinement utility. It is not a project-management system, a requirements-management platform, a UX research platform, a wireframing tool or a general-purpose AI chatbot.
 
 ## Positioning
-Strictly separates what the stakeholder stated, what may be assumed and what is still unknown, inside a fixed UX-brief structure that can be handed on to ReqStudio. A general AI chat tool does not hold this separation as a product rule, and does not produce a consistent designer-ready brief shape.
+Strictly separates what the stakeholder stated, what may be assumed and what is still unknown, inside a fixed UX-brief structure. A general AI chat tool does not hold this separation as a product rule, and does not produce a consistent designer-ready brief shape.
 
 ## Operating Context
-Core workflow: stakeholder input, refine, structured brief, review/edit, export or send to ReqStudio. Phase 1 (shell, landing, refiner UI) and Phase 2 (server-side AI refinement with validated structured output) are built. ReqStudio is a sibling product; sending to it is not yet implemented.
+Core workflow: stakeholder input, refine, structured brief, review/edit, export. Phase 1 (shell, landing, refiner UI) and Phase 2 (server-side AI refinement with validated structured output) are built.
 
 ## Capabilities and Constraints
-- Next.js App Router, TypeScript, Tailwind CSS, Manrope; Vercel-compatible. AI runs server-side through the Vercel AI Gateway with schema-validated structured output; no API keys in the client.
+- Next.js App Router, TypeScript, Tailwind CSS, Newsreader + DM Sans; Vercel-compatible. AI runs server-side through the Vercel AI Gateway with schema-validated structured output; no API keys in the client.
 - No accounts, database, payments, subscriptions, team features or external integrations. The draft is kept in browser local storage; submitted text is not stored or logged server-side.
 - Result model: `RefinedBrief` (problem, businessObjectives, userProblem, potentialRequirements, assumptions, clarificationQuestions, recommendedNextSteps, optional statedByStakeholder).
 - Must never fabricate facts, statistics, research or requirements; vague input yields an undefined problem plus clarification questions.
-- Undecided: export formats beyond copy-as-Markdown, the ReqStudio integration, persistence of past briefs.
+- Undecided: export formats beyond copy-as-Markdown and print, persistence of past briefs. /refiner always opens on an empty request; a saved brief is offered, never opened automatically.
 
 ## Brand Commitments
-Name BriefWise. Tagline "Turn vague briefs into clear direction." Primary colour `#C74504`, text `#444444`, font Manrope. Logo is the supplied "B" mark (`BriefWise_logo.svg`), also used as the favicon. Product should read as a professional design utility, not an AI toy: no generic AI sparkle graphics, robot or lightbulb imagery.
+Name BriefWise. Tagline "Turn vague briefs into clear direction." Visual system: DevLens "White Paper on a Butter Desk" (amber `#e8b923` fill, ochre `#826400` text, Newsreader headings, DM Sans body), with light and dark themes. Logo is the supplied "B" mark (`BriefWise_logo.svg`), also used as the favicon. Product should read as a professional design utility, not an AI toy: no generic AI sparkle graphics, robot or lightbulb imagery.
 
 ## Evidence on Hand
 No testimonials, customers, metrics or case studies exist. Only the sample stakeholder statement and its illustrative brief (`lib/sample.ts`) and the logo. Do not invent social proof, usage numbers or customer names.

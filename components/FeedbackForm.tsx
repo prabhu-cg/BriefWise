@@ -42,8 +42,8 @@ export function FeedbackForm() {
 
   if (status === "sent") {
     return (
-      <div role="status" className="rounded-xl bg-surface p-4">
-        <p className="text-lg font-bold text-ink-strong">Thank you</p>
+      <div role="status" className="rounded-[12px] bg-surface p-4">
+        <p className="text-lg font-semibold text-ink-strong">Thank you</p>
         <p className="mt-1 leading-relaxed">
           Your feedback has been sent to the BriefWise team.
         </p>
@@ -63,15 +63,15 @@ export function FeedbackForm() {
   return (
     <form onSubmit={submit} className="space-y-5">
       <fieldset>
-        <legend className="text-base font-bold text-ink-strong">What kind of feedback is it?</legend>
+        <legend className="text-base font-semibold text-ink-strong">What kind of feedback is it?</legend>
         <div className="mt-2 flex flex-wrap gap-2">
           {(Object.keys(FEEDBACK_TYPES) as FeedbackType[]).map((key) => (
             <label
               key={key}
-              className={`cursor-pointer rounded-lg border px-3 py-2 text-sm font-semibold has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 ${
+              className={`cursor-pointer rounded-full border px-3.5 py-1.5 text-sm font-semibold has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 ${
                 type === key
-                  ? "border-brand bg-brand-tint text-ink-strong"
-                  : "border-[#c9c0b8] text-ink hover:border-ink-strong"
+                  ? "border-brand-strong bg-brand-tint text-brand-strong"
+                  : "border-control text-ink hover:bg-sand"
               }`}
             >
               <input
@@ -90,7 +90,7 @@ export function FeedbackForm() {
       </fieldset>
 
       <div>
-        <label htmlFor="feedback-message" className="text-base font-bold text-ink-strong">
+        <label htmlFor="feedback-message" className="text-base font-semibold text-ink-strong">
           Your feedback
         </label>
         <textarea
@@ -104,7 +104,7 @@ export function FeedbackForm() {
           required
           aria-describedby={`feedback-hint${error ? " feedback-error" : ""}`}
           aria-invalid={status === "error" || undefined}
-          className="mt-2 block w-full resize-y rounded-xl border border-[#c9c0b8] bg-paper p-3 text-base leading-relaxed text-ink-strong placeholder:text-[#767676] read-only:bg-surface"
+          className="field mt-2 block w-full resize-y p-3 text-base leading-relaxed read-only:bg-surface"
           placeholder="What happened, or what would make BriefWise better?"
         />
         <p id="feedback-hint" className="mt-2 text-sm text-ink-muted">
@@ -128,7 +128,7 @@ export function FeedbackForm() {
       </div>
 
       {error && (
-        <p id="feedback-error" role="alert" className="text-base font-semibold text-[#b42318]">
+        <p id="feedback-error" role="alert" className="text-base font-semibold text-danger">
           {error}
         </p>
       )}

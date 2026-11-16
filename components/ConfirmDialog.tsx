@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { buttonPrimary, buttonSecondary } from "./ui";
+import { buttonDanger, buttonSecondary } from "./ui";
+import { AlertTriangle } from "./icons";
 
 type Props = {
   open: boolean;
@@ -13,7 +14,7 @@ type Props = {
   onCancel: () => void;
 };
 
-/** Native <dialog>: focus is trapped and Escape cancels. Focus starts on the safe option. */
+/** Native <dialog>: focus is trapped and Escape cancels. Focus starts on the safe option. Used only for destructive confirmations. */
 export function ConfirmDialog({
   open,
   title,
@@ -40,17 +41,22 @@ export function ConfirmDialog({
         event.preventDefault();
         onCancel();
       }}
-      className="no-print m-auto w-[min(32rem,calc(100%-2.5rem))] rounded-xl border border-line bg-paper p-6 text-ink shadow-[0_24px_64px_-16px_rgb(38_38_38/0.45)] backdrop:bg-ink-strong/50 sm:p-8"
+      className="bw-dialog no-print m-auto w-[min(28rem,calc(100%-2.5rem))] overflow-hidden rounded-[20px] border border-line bg-paper p-0 text-ink shadow-[var(--shadow-lg)] backdrop:bg-[var(--c-scrim)]"
     >
-      <h2 id="confirm-title" className="text-xl font-extrabold tracking-tight text-ink-strong">
-        {title}
-      </h2>
-      <div className="mt-3 space-y-2 leading-relaxed">{children}</div>
-      <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+      <div className="p-6 sm:p-8">
+        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-danger-tint text-danger">
+          <AlertTriangle className="h-5 w-5" />
+        </span>
+        <h2 id="confirm-title" className="mt-5 text-xl leading-snug">
+          {title}
+        </h2>
+        <div className="mt-3 space-y-2 leading-relaxed">{children}</div>
+      </div>
+      <div className="flex flex-col-reverse gap-3 border-t border-line bg-surface px-6 py-4 sm:flex-row sm:justify-end sm:px-8">
         <button type="button" onClick={onCancel} autoFocus className={buttonSecondary}>
           {cancelLabel}
         </button>
-        <button type="button" onClick={onConfirm} className={buttonPrimary}>
+        <button type="button" onClick={onConfirm} className={buttonDanger}>
           {confirmLabel}
         </button>
       </div>

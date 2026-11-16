@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { BriefView } from "./BriefView";
 import { ConfirmDialog } from "./ConfirmDialog";
 import type { Draft, Drafts, Field } from "./BriefResult";
-import { buttonGhost, buttonPrimary, buttonSecondary } from "./ui";
+import { buttonGhost, buttonLg, buttonPrimary, buttonSecondary } from "./ui";
 import { AlertTriangle, ArrowRight, Info } from "./icons";
 import { SAMPLE_STATEMENT } from "@/lib/sample";
 import { RefineError, refineBrief } from "@/lib/refiner/client";
@@ -16,14 +16,6 @@ type View = "input" | "brief";
 type Confirm = "regenerate" | "start-over" | null;
 
 const DRAFT_KEY = "briefwise:draft";
-
-function readDraft(): string {
-  try {
-    return window.localStorage.getItem(DRAFT_KEY) ?? "";
-  } catch {
-    return "";
-  }
-}
 
 function writeDraft(value: string) {
   try {
@@ -66,12 +58,17 @@ export function Refiner() {
   useEffect(() => {
     const loaded = loadWork();
     /* eslint-disable react-hooks/set-state-in-effect -- restoring from localStorage after hydration */
+    // /refiner always opens on an empty request. A saved brief is offered, never opened for you.
     if (loaded.status === "ok") {
-      setWork(loaded.work);
-      setInput(loaded.work.input);
-      setView("brief");
+      if (loaded.work.meta.preview) {
+        // Illustrative placeholder from before AI was connected: not the user's work.
+        clearWork();
+      } else {
+        setWork(loaded.work);
+      }
+      writeDraft("");
     } else {
-      setInput(readDraft());
+      writeDraft("");
       if (loaded.status === "invalid") {
         setRestoreIssue(
           "We couldn't restore your saved brief because it was incomplete. You can refine it again below.",
@@ -104,7 +101,6 @@ export function Refiner() {
 
   function updateInput(value: string) {
     setInput(value);
-    writeDraft(value);
     if (status === "error") {
       setStatus("idle");
       setError(null);
@@ -138,6 +134,7 @@ export function Refiner() {
         savedAt: Date.now(),
       });
       setDrafts({});
+      writeDraft("");
       setRestoreIssue(null);
       setJustGenerated(true);
       setStatus("idle");
@@ -171,12 +168,12 @@ export function Refiner() {
     abortRef.current?.abort();
     setStatus("idle");
     setError(null);
-    if (work) setInput(work.input);
     setJustGenerated(false);
     setView("brief");
   }
 
   function refineAgain() {
+    if (work) setInput(work.input);
     setView("input");
     requestAnimationFrame(() => textareaRef.current?.focus());
   }
@@ -223,7 +220,7 @@ export function Refiner() {
   }
 
   if (!ready) {
-    return <div className="mx-auto min-h-[60vh] max-w-6xl px-5 py-10 sm:px-8" aria-hidden="true" />;
+    return <div className="site-container min-h-[60vh] py-10" aria-hidden="true" />;
   }
 
   const editedCount = work
@@ -299,34 +296,35 @@ export function Refiner() {
         ? `Add a little more detail, at least ${MIN_INPUT_LENGTH} characters.`
         : "Ready to refine.";
   const hasBrief = work !== null;
+  const overLimit = trimmedLength > MAX_INPUT_LENGTH;
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-10 sm:px-8 sm:py-16">
-      <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-16">
+    <div className="site-container py-10 sm:py-14">
+      <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
         <form onSubmit={handleSubmit} noValidate aria-busy={loading}>
           {hasBrief && (
-            <div className="mb-8 flex flex-col gap-3 rounded-xl border border-line bg-surface p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mb-8 flex flex-col gap-3 rounded-[20px] border border-line bg-surface p-4 sm:flex-row sm:items-center sm:justify-between sm:pl-5">
               <p className="flex gap-3 leading-snug">
                 <Info className="mt-0.5 h-5 w-5 shrink-0 text-ink-muted" />
                 <span>
-                  <span className="font-bold text-ink-strong">Your current brief is kept</span> until
-                  you confirm a new one.
+                  <span className="font-semibold text-ink-strong">You have a saved brief.</span> It
+                  stays as it is until you confirm a new one.
                 </span>
               </p>
-              <button type="button" onClick={backToBrief} className={buttonSecondary}>
-                Back to your brief
+              <button type="button" onClick={backToBrief} className={`${buttonSecondary} shrink-0`}>
+                Open saved brief
               </button>
             </div>
           )}
 
           {restoreIssue && (
-            <div role="alert" className="mb-8 flex gap-3 rounded-xl border border-[#e8b4af] bg-[#fdf1f0] p-4">
-              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-[#8c1d18]" />
+            <div role="alert" className="mb-8 flex gap-3 rounded-[20px] border border-danger-line bg-danger-tint p-4">
+              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-danger" />
               <p className="leading-relaxed">{restoreIssue}</p>
             </div>
           )}
 
-          <h1 className="text-balance text-4xl font-extrabold leading-[1.08] tracking-[-0.03em] text-ink-strong sm:text-5xl">
+          <h1 className="text-balance text-4xl leading-[1.1] sm:text-5xl">
             <label htmlFor="brief-input">What did the stakeholder say?</label>
           </h1>
           <p id="brief-hint" className="mt-4 max-w-2xl text-lg leading-relaxed">
@@ -334,7 +332,7 @@ export function Refiner() {
             structure it.
           </p>
 
-          <div className="mt-8 rounded-xl border border-[#c9c0b8] bg-paper shadow-[0_1px_2px_rgb(38_38_38/0.05)] transition-shadow focus-within:border-brand focus-within:shadow-[0_0_0_3px_rgb(199_69_4/0.25)]">
+          <div className="field-wrap field mt-8 rounded-[12px]">
             <textarea
               id="brief-input"
               ref={textareaRef}
@@ -351,7 +349,7 @@ export function Refiner() {
               placeholder="We need a new website because the existing one is old and customers can't find our services..."
               aria-describedby={`brief-hint brief-meta${error ? " brief-error" : ""}`}
               aria-invalid={status === "error" || undefined}
-              className="block min-h-64 w-full resize-y rounded-t-xl bg-transparent p-5 text-lg leading-relaxed text-ink-strong outline-none placeholder:text-[#767676] read-only:bg-surface"
+              className="block min-h-64 w-full resize-y rounded-t-[12px] bg-transparent p-5 text-lg leading-relaxed text-ink-strong outline-none placeholder:text-ink-muted read-only:bg-surface"
             />
             <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line px-3 py-2">
               <button type="button" onClick={handleExample} disabled={loading} className={buttonGhost}>
@@ -359,9 +357,7 @@ export function Refiner() {
               </button>
               <div id="brief-meta" className="flex items-center gap-3 px-2 text-sm text-ink-muted">
                 <span>{helper}</span>
-                <span
-                  className={`tabular-nums ${trimmedLength > MAX_INPUT_LENGTH ? "font-bold text-brand-strong" : ""}`}
-                >
+                <span className={`tabular-nums ${overLimit ? "font-semibold text-danger" : ""}`}>
                   {trimmedLength.toLocaleString("en-US")} / {MAX_INPUT_LENGTH.toLocaleString("en-US")}
                 </span>
               </div>
@@ -372,35 +368,29 @@ export function Refiner() {
             <div
               id="brief-error"
               role="alert"
-              className="mt-5 flex gap-3 rounded-xl border border-[#e8b4af] bg-[#fdf1f0] p-4"
+              className="mt-5 flex gap-3 rounded-[20px] border border-danger-line bg-danger-tint p-4"
             >
-              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-[#8c1d18]" />
+              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-danger" />
               <div>
-                <p className="font-bold text-[#8c1d18]">
-                  {hasBrief ? "Couldn’t regenerate the brief" : "Couldn’t refine this brief"}
+                <p className="font-semibold text-danger">
+                  {hasBrief ? "Couldn’t refine the new request" : "Couldn’t refine this brief"}
                 </p>
                 <p className="mt-0.5">{error}</p>
-                {hasBrief && <p className="mt-0.5">Your current brief has not been changed.</p>}
+                {hasBrief && <p className="mt-0.5">Your saved brief has not been changed.</p>}
               </div>
             </div>
           )}
-          {!error && !check.ok && trimmedLength > MAX_INPUT_LENGTH && (
-            <p className="mt-3 font-semibold text-brand-strong">{check.message}</p>
+          {!error && !check.ok && overLimit && (
+            <p className="mt-3 font-semibold text-danger">{check.message}</p>
           )}
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <button type="submit" disabled={!canSubmit} className={buttonPrimary}>
+            <button type="submit" disabled={!canSubmit} className={`${buttonPrimary} ${buttonLg}`}>
               {loading && <Spinner />}
-              {loading
-                ? "Refining…"
-                : status === "error"
-                  ? "Try again"
-                  : hasBrief
-                    ? "Regenerate brief"
-                    : "Refine brief"}
+              {loading ? "Refining…" : status === "error" ? "Try again" : "Refine brief"}
               {!loading && <ArrowRight />}
             </button>
-            <button type="button" onClick={handleClear} disabled={!input} className={buttonSecondary}>
+            <button type="button" onClick={handleClear} disabled={!input} className={`${buttonSecondary} ${buttonLg}`}>
               Clear
             </button>
             <p className="hidden text-sm text-ink-muted sm:ml-auto sm:block">or press Ctrl/⌘ + Enter</p>
@@ -415,8 +405,8 @@ export function Refiner() {
           </p>
         </form>
 
-        <aside aria-labelledby="gets-title" className="lg:pt-3">
-          <h2 id="gets-title" className="text-lg font-bold text-ink-strong">
+        <aside aria-labelledby="gets-title" className="self-start rounded-[20px] border border-line bg-surface p-6">
+          <h2 id="gets-title" className="text-xl">
             What you&rsquo;ll get
           </h2>
           <ul className="mt-4 divide-y divide-line border-y border-line">
@@ -430,7 +420,7 @@ export function Refiner() {
               ["Recommended next steps", "What to do before design starts."],
             ].map(([title, body]) => (
               <li key={title} className="py-3">
-                <p className="font-semibold text-ink-strong">{title}</p>
+                <p className="text-sm font-semibold text-ink-strong">{title}</p>
                 <p className="text-sm text-ink-muted">{body}</p>
               </li>
             ))}
