@@ -10,7 +10,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const onRefiner = pathname === "/refiner";
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-surface">
+    <header className="sticky top-0 z-40 border-b border-line bg-paper">
       <div className="site-container flex h-16 items-center justify-between">
         <Link href="/" aria-label="BriefWise home" className="rounded-full">
           <Logo />
